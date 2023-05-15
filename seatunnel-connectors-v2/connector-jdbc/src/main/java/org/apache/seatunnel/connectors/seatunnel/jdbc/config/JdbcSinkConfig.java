@@ -26,6 +26,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import static org.apache.seatunnel.connectors.seatunnel.jdbc.config.JdbcOptions.SUPPORT_UPSERT_BY_QUERY_PRIMARY_KEY_EXIST;
+import static org.apache.seatunnel.connectors.seatunnel.jdbc.config.JdbcOptions.SUPPORT_UPSERT_BY_INSERT_ONLY;
 
 @Data
 @Builder(builderClassName = "Builder")
@@ -39,6 +40,7 @@ public class JdbcSinkConfig implements Serializable {
     private String table;
     private List<String> primaryKeys;
     private boolean supportUpsertByQueryPrimaryKeyExist;
+    private boolean supportUpsertByInsertOnly;
 
     public static JdbcSinkConfig of(ReadonlyConfig config) {
         JdbcSinkConfig.Builder builder = JdbcSinkConfig.builder();
@@ -49,6 +51,8 @@ public class JdbcSinkConfig implements Serializable {
         config.getOptional(JdbcOptions.TABLE).ifPresent(builder::table);
         config.getOptional(SUPPORT_UPSERT_BY_QUERY_PRIMARY_KEY_EXIST)
                 .ifPresent(builder::supportUpsertByQueryPrimaryKeyExist);
+        config.getOptional(SUPPORT_UPSERT_BY_INSERT_ONLY)
+                .ifPresent(builder::supportUpsertByInsertOnly);
         config.getOptional(JdbcOptions.QUERY).ifPresent(builder::simpleSql);
         return builder.build();
     }
